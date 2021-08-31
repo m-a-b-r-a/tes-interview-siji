@@ -35,7 +35,9 @@ class TaskListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request['user_id'] = auth()->user()->id;
+        TaskList::create($request->all());
+        return redirect()->back();
     }
 
     /**

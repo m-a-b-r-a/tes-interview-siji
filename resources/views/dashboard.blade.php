@@ -18,6 +18,8 @@
     <link href="{{asset('backend/plugins/charts/chartist/chartist.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('backend/assets/css/default-dashboard/style.css')}}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL CUSTOM STYLES -->
+    @livewireStyles
+
 </head>
 <body>
     <div id="eq-loader">
@@ -134,5 +136,7 @@
     <script src="{{asset('backend/plugins/calendar/pignose/moment.latest.min.js')}}"></script>
     <script src="{{asset('backend/plugins/calendar/pignose/pignose.calendar.js')}}"></script>
     <!-- BEGIN PAGE LEVEL CUSTOM SCRIPTS -->
+    @livewireScripts
+
 </body>
 </html>

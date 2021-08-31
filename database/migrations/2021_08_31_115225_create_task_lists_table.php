@@ -16,8 +16,8 @@ class CreateTaskListsTable extends Migration
         Schema::create('task_lists', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
-            $table->string('hex')->default('3B88C3');
+            $table->string('name')->nullable();
+            $table->string('hex')->nullable();
             $table->smallInteger('status')->default(1)->comment('1= Active , 2 = Archieved');
             $table->softDeletes();
             $table->timestamps();
