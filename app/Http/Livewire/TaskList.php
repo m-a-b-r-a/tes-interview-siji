@@ -8,22 +8,28 @@ use App\Models\TaskList as Tlist;
 class TaskList extends Component
 {
     public $taskList,$archievedList;
-    public $listName,$listHex,$listId;
+    public $listName,$listHex,$listId,$newListName,$newListHex;
     public $pageTitle;
     public $itemList;
     public $itemTitle;
     public $itemDesc;
-    public $showFormCreateItem;
+    public $itemId;
+    public $showFormCreateItem,$showFormEditItem,$showFormEditList;
 
     public function mount(){
+        $archieved = Tlist::where('status',2)->pluck('id');
         $this->itemList = TaskItem::where('user_id',auth()->user()->id)
                             ->where('is_done',0)
+                            ->whereNotIn('task_list_id',$archieved)
                             ->orderBy('created_at','desc')
                             ->get();
         $this->showFormCreateItem = false;
+        $this->showFormEditItem = false;
+        $this->showFormEditList = false;
     }
     public function render()
     {
+        $archieved = Tlist::where('status',2)->pluck('id');
         if(isset($this->listId)){
             $this->itemList = TaskItem::where('task_list_id',$this->listId)
             ->where('is_done',0)
@@ -32,6 +38,7 @@ class TaskList extends Component
         }else{
             $this->itemList = TaskItem::where('user_id',auth()->user()->id)
             ->where('is_done',0)
+            ->whereNotIn('task_list_id',$archieved)
             ->orderBy('created_at','desc')
             ->get();
         }
@@ -62,12 +69,20 @@ class TaskList extends Component
         $this->listId = $this->pageTitle->id;
 
     }
+    public function showFormEditList(){
+        $this->newListName = $this->listName;
+        $this->newListHex = $this->listHex;
+        $this->showFormEditList = true;
+    }
     public function updateList(){
-        $data = Tlist::where('id',$this->listId);
+        $this->listName = $this->newListName;
+        $this->listHex = $this->newListHex;
+        $data = Tlist::where('id',$this->pageTitle->id);
         $data->update([
-            'name' => $this->listName,
-            'hex' => $this->listHex,
+            'name' => $this->newListName,
+            'hex' => $this->newListHex,
         ]);
+        $this->showFormEditList = false;
     }
 
     public function showFormCreateItem(){
@@ -96,19 +111,21 @@ class TaskList extends Component
         $data->delete();
     }
     public function editItem($id){
-        $this->showFormCreateItem = true;
+        $this->showFormEditItem = true;
         $list = TaskItem::where('id',$id)->first();
         $this->itemTitle = $list->name;
         $this->itemDesc = $list->desc;
+        $this->itemId = $list->id;
     }
-    public function updateItem($id){
-        $list = TaskItem::where('id',$id);
+    public function updateItem(){
+        $list = TaskItem::where('id',$this->itemId);
         $list->update([
             'name' => $this->itemTitle,
             'desc' => $this->itemDesc,
         ]);
         $this->reset('itemTitle');
         $this->reset('itemDesc');
-        $this->showFormCreateItem = false;
+        $this->reset('itemId');
+        $this->showFormEditItem = false;
     }
 }

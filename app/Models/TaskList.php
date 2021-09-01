@@ -10,7 +10,7 @@ class TaskList extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function taskItem(){
-        $this->hasMany(TaskItem::class,'task_item_id');
+    public function undoneTaskItem(){
+        return $this->hasMany(TaskItem::class,'task_list_id')->where('is_done',0);
     }
 }

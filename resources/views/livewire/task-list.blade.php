@@ -25,7 +25,7 @@
                                     <span>My List</span>
                                 </div>
                             </a>
-                            <div wire:ignore.self class="submenu list-unstyled collapse eq-animated eq-fadeInUp" id="tasklist" data-parent="#topAccordion">
+                            <div class="submenu list-unstyled collapse eq-animated eq-fadeInUp" id="tasklist" data-parent="#topAccordion">
                                 <div class="submenu-scroll">
                                     <ul class="list-unstyled">
                                         <li>
@@ -44,9 +44,11 @@
 
                                                             </div>
                                                             <a href="javascript:void(0);" wire:click="showList({{$value->id}})"> {{Str::limit($value->name,14)}}
-                                                                @if(3 > 0)
-                                                                <span class="badge badge-pills outline-badge-new">3</span>
+
+                                                                @if($value->undoneTaskItem()->count() > 0)
+                                                                <span class="badge badge-pills outline-badge-new">{{$value->undoneTaskItem()->count()}}</span>
                                                                 @endif
+
                                                             </a>
 
                                                         </li>
@@ -69,7 +71,7 @@
                                     <span>Archieved List</span>
                                 </div>
                             </a>
-                            <div wire:ignore.self class="submenu list-unstyled collapse eq-animated eq-fadeInUp" id="tasklistArchieved" data-parent="#topAccordion">
+                            <div class="submenu list-unstyled collapse eq-animated eq-fadeInUp" id="tasklistArchieved" data-parent="#topAccordion">
                                 <div class="submenu-scroll">
                                     <ul class="list-unstyled">
                                         <li>
@@ -82,14 +84,14 @@
                                                         <li>
                                                             <div class="float-left">
 
-                                                                    <a href="javascript:void(0);" wire:click="unArchieveList({{$value->id}})" classrole="button" data-toggle="tooltip" data-placement="top" title="Delete List">
-                                                                        <i class="flaticon-delete-1"></i>
+                                                                    <a href="javascript:void(0);" wire:click="unArchieveList({{$value->id}})" classrole="button" data-toggle="tooltip" data-placement="top" title="Backup List">
+                                                                        <i class="flaticon-reload-dash"></i>
                                                                     </a>
 
                                                             </div>
                                                             <a href="javascript:void(0);" wire:click="showList({{$value->id}})"> {{Str::limit($value->name,14)}}
-                                                                @if(3 > 0)
-                                                                <span class="badge badge-pills outline-badge-new">3</span>
+                                                                @if($value->undoneTaskItem()->count() > 0)
+                                                                <span class="badge badge-pills outline-badge-new">{{$value->undoneTaskItem()->count()}}</span>
                                                                 @endif
                                                             </a>
 
@@ -113,20 +115,57 @@
         <!--  BEGIN CONTENT PART  -->
         <div id="content" class="main-content">
             <div class="container">
+                @if($showFormEditList == true)
+                <div class="card mt-3 mb-2">
+                    <div class="card-body">
+                        <form wire:submit.prevent='updateList'>
+                          <div class="modal-body">
+                              <input type="hidden" wire:model.defer="listId" value="{{$pageTitle->id}}">
+                              <label for="">List Name</label>
+                              <input type="text" wire:model.defer="newListName" name="name"  class="form-control-rounded form-control" placeholder="List Name" >
+                              <label for="" class="mt-3">Hex Color</label>
+                              <input wire:model.defer="newListHex" type="color" name="hex" class="form-control-rounded form-control" placeholder="Hex Color" >
+                          </div>
+                          <div class="modal-footer">
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                      </form>
+                    </div>
+                </div>
+                @endif
                 <div class="page-header">
                     <div class="page-title">
-                        <h3>{{$pageTitle->name ?? 'Today Task'}}</h3>
+                        <h3>{{ $newListName ?? $pageTitle->name ?? 'Today Task'}}</h3>
                     </div>
                 </div>
                 @if(isset($pageTitle))
                 <div class="mb-3">
                 <button class="btn btn-rounded btn-primary" wire:click="showFormCreateItem">Create List Item</button>
-                <button class="btn btn-rounded btn-secondary" data-toggle="modal" data-target="#editListModal">Edit List</button>
+                <button class="btn btn-rounded btn-secondary" wire:click="showFormEditList">Edit List</button>
                 </div>
                 @if($showFormCreateItem == true)
                 <div class="card mb-3">
                     <div class="card-body">
                         <form wire:submit.prevent='storeItem'>
+                            <input type="hidden" wire:model.defer="listId" value="{{$pageTitle->id}}">
+                            <div class="form-group">
+                            <label for="">Nama</label>
+                            <input type="text" wire:model.defer="itemTitle" class="form-control">
+
+                            <label for="">Deskripsi</label>
+                            <input type="text" wire:model.defer="itemDesc" class="form-control">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Create Task Item</button>
+                        </form>
+                    </div>
+                </div>
+                @endif
+                @if($showFormEditItem == true)
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form wire:submit.prevent='updateItem'>
                             <input type="hidden" wire:model.defer="listId" value="{{$pageTitle->id}}">
                             <div class="form-group">
                             <label for="">Nama</label>
@@ -214,32 +253,6 @@
     </div>
   </div>
 
-  @if(isset($pageTitle))
-  <div wire:ignore.self class="modal fade" id="editListModal" tabindex="-1" role="dialog" aria-labelledby="editListModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Update {{$this->listName}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form wire:submit.prevent='updateList'>
-        <div class="modal-body">
-            <input type="hidden" wire:model.defer="listId" value="{{$pageTitle->id}}">
-            <label for="">List Name</label>
-            <input id="t-text" type="text" wire:model.defer="listName" name="name"  class="form-control-rounded form-control" placeholder="List Name" required>
-            <label for="" class="mt-3">Hex Color</label>
-            <input id="t-color" wire:model.defer="listHex" type="color" name="hex" class="form-control-rounded form-control" placeholder="Hex Color" required>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
-      </div>
-    </div>
-  </div>
-  @endif
+
     {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
 </div>
