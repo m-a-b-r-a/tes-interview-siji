@@ -60,13 +60,13 @@
             </div>
             <div class="row-2">
               <div class="col lg-6 sm-1">
-                <div><img src="https://via.placeholder.com/150" width="70" alt="" class="icon">
+                <div><img src="{{asset('frontend/images/note-f.png')}}" width="70" alt="" class="icon">
                   <h3 class="ondark">List Management</h3>
                   <p class="ondark">You can create a group of task , so you can see your task easily, for example : your task in Office,Home, etc.</p>
                 </div>
               </div>
               <div class="col lg-6 sm-1">
-                <div><img src="https://via.placeholder.com/150" width="70" alt="" class="icon">
+                <div><img src="{{asset('frontend/images/calendar-f.png')}}" width="70" alt="" class="icon">
                   <h3 class="ondark">Today Task List</h3>
                   <p class="ondark">You can see all your task in one spot,cool right?</p>
                 </div>
@@ -115,23 +115,24 @@
       <p class="short-paragraph sectionsub">This is all the feature we have now , more feature will be added soon</p>
       <div class="row-2">
         <div class="col lg-4">
-          <div data-w-id="7b5c466a-962a-8742-1d10-203f426a0c1d" style="opacity:0" class="margin-bottom"><img src="https://via.placeholder.com/200" width="170" alt="" class="icon">
+          <div data-w-id="7b5c466a-962a-8742-1d10-203f426a0c1d" style="opacity:0" class="margin-bottom"><img src="{{asset('frontend/images/note.png')}}" width="170" alt="" class="icon">
             <h4>Today Task List</h4>
-            <p class="paragraph">Get an instant snapshot of the stages your applications are at. Don’t waste your time on trying to keep up and updating them.</p>
+            <p class="paragraph">Get view of all your Task in one spot</p>
           </div>
         </div>
         <div class="col lg-4">
-          <div data-w-id="7b5c466a-962a-8742-1d10-203f426a0c24" style="opacity:0" class="margin-bottom"><img src="https://via.placeholder.com/200" width="150" alt="" class="icon">
+            <div data-w-id="7b5c466a-962a-8742-1d10-203f426a0c2b" style="opacity:0" class="margin-bottom"><img src="{{asset('frontend/images/refresh.png')}}" width="180" alt="" class="icon">
+              <h4>Archieved List</h4>
+              <p class="paragraph">You can Archieve your List if you dont need it anymore, you can also un-archieve it anytime</p>
+            </div>
+          </div>
+        <div class="col lg-4">
+          <div data-w-id="7b5c466a-962a-8742-1d10-203f426a0c24" style="opacity:0" class="margin-bottom"><img src="{{asset('frontend/images/calendar.png')}}" width="150" alt="" class="icon">
             <h4>List Management (Grouping Task)</h4>
-            <p class="paragraph">Spend your time building relationships with your students and give them good reasons to choose your agency and loose the competition.</p>
+            <p class="paragraph">Create List to Group Your Task, you can also Set the Text Color</p>
           </div>
         </div>
-        <div class="col lg-4">
-          <div data-w-id="7b5c466a-962a-8742-1d10-203f426a0c2b" style="opacity:0" class="margin-bottom"><img src="https://via.placeholder.com/200" width="180" alt="" class="icon">
-            <h4>Archieved List</h4>
-            <p class="paragraph">Put the focus on the student. With intelligent, your education counsellors will be in sync to focus their time on increasing revenue.</p>
-          </div>
-        </div>
+
 
       </div>
     </div>
