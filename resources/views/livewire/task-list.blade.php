@@ -136,10 +136,10 @@
                 @endif
                 <div class="page-header">
                     <div class="page-title">
-                        <h3>{{ $newListName ?? $pageTitle->name ?? 'Today Task'}}</h3>
+                        <h3>@if(isset($pageTitle) && $pageTitle->status == '2') Archieved - @endif {{ $newListName ?? $pageTitle->name ?? 'Today Task'}}</h3>
                     </div>
                 </div>
-                @if(isset($pageTitle))
+                @if(isset($pageTitle) && $pageTitle->status == 1)
                 <div class="mb-3">
                 <button class="btn btn-rounded btn-primary" wire:click="showFormCreateItem">Create List Item</button>
                 <button class="btn btn-rounded btn-secondary" wire:click="showFormEditList">Edit List</button>
@@ -197,7 +197,7 @@
                                    <p><b style="color: {{$value->parent->hex}}">{{$value->name}}</b></p>
                                    <small style="color: {{$value->parent->hex}}">{{$value->desc}}</small>
                                 </td>
-                                @if(isset($pageTitle))
+                                @if(isset($pageTitle) && $pageTitle->status == 1)
                                 <td>
                                     <button wire:click="deleteItem({{$value->id}})" class="btn btn-danger btn-sm btn-rounded"><i class="flaticon-delete"></i></button>
                                     <button wire:click="editItem({{$value->id}})" class="btn btn-warning btn-sm btn-rounded"><i class="flaticon-pencil-1"></i></button>
