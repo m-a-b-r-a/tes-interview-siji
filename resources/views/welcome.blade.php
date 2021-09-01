@@ -144,7 +144,7 @@
         <div class="col lg-6 md-3 xs-2">
           <div class="centre-align">
             <div class="margin-bottom">
-              <h2 class="section-header withdesc ondark">Experience Kergan App Now</h2>
+              <h2 class="section-header withdesc ondark">Experience Whatodo Now</h2>
               <p class="ondark">It&#x27;s Totally Free !<br></p>
 
               <div class="value-proposition-buttons"><a href="{{route('register')}}" class="button2 margin-left w-button">GET STARTED</a></div>
