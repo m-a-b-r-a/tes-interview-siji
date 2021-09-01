@@ -185,16 +185,8 @@
                 <div class="row">
                     <div class="col-md-12">
                     <div class="card">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th width="600px">Name</th>
-                                @if(isset($pageTitle))
-                                <th>Action</th>
-                                @endif
-                            </tr>
-                        </thead>
+                    <table class="table {{count($itemList) > 0 ? 'table-hover' : ''}}">
+
                         <tbody>
                             @forelse($itemList as $value)
                             <tr>
@@ -213,6 +205,18 @@
                                 @endif
                             </tr>
                             @empty
+                            <tr>
+                                <td>
+                                    <img src="{{asset('frontend/images/men2.png')}}" alt="" style="width:100px;object-fit: cover">
+                                </td>
+                                <td colspan="2">
+                                    <h5>
+                                        Yay !, No Task Left
+                                    </h5>
+                                    <small>Create a New One ?</small>
+
+                                </td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>
